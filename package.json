@@ -4,8 +4,8 @@
   "description": "PROJECT",
   "main": "index.js",
   "scripts": {
-    "start": "node p3/appjs/index",
-    "dev": "nodemon p3/appjs/index"
+    "start": "node server/appjs/index",
+    "dev": "nodemon server/appjs/index"
   },
   "author": "Riju Ghosh",
   "license": "ISC",
