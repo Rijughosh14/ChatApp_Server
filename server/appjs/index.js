@@ -180,14 +180,14 @@ app.use(cookieParser())
  app.use(express.urlencoded({extended:false}));
 
 //images
- app.use('/uploads',express.static("p3/appjs/uploads"),(req,res)=>{
+ app.use('/uploads',express.static("server/appjs/uploads"),(req,res)=>{
     res.status(200)
  });   
 
 //uploads 
 const storage=multer.diskStorage({
     destination: function(req,file,cb){
-        cb(null,'p3/appjs/uploads')
+        cb(null,'server/appjs/uploads')
     },
     filename:function(req,file,cb){
         cb(null,Date.now()+file.originalname)
