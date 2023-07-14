@@ -36,8 +36,11 @@ const io = new Server(httpServer, {
 io.on("connection", (socket) => {
 
   //setting user id 
-  const {user}=socket.handshake.query
-  users.set(user,socket.id)
+  socket.on('user_connection',(data)=>{
+    users.set(`${data}`,socket.id)
+  })
+  // const {user}=socket.handshake.query
+  // console.log(user)
 
   //on connection pending events
   
@@ -166,7 +169,17 @@ socket.on('close',(data)=>{
   call.delete(callee)
   call.delete(caller)
 })
+
+
+//user logout
+socket.on('logout',(data)=>{
+  users.delete(data)
+  })
+
+
+
 });
+
 
 
 
