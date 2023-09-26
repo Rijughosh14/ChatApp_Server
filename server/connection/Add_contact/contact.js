@@ -40,7 +40,7 @@ class dbcontact{
             
         } 
         catch (error)
-         {
+        {
             console.log(error)
         }
         
