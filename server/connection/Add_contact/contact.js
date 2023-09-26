@@ -8,7 +8,8 @@ class dbcontact{
 
     async addContact(data,id){
 
-        try {
+        try 
+        {
           const response=await new Promise((resolve,reject)=>{
                 const query="SELECT friend_list.F_id from friend_list JOIN signup_table on signup_table.id=friend_list.F_id where signup_table.phone_number=? AND friend_list.U_id=? UNION SELECT friend_list.U_id from friend_list JOIN signup_table on signup_table.id=friend_list.U_id where signup_table.phone_number=? AND friend_list.F_id=?;"
                 connection.query(query,[data,id,data,id],(err,result)=>{
@@ -16,11 +17,33 @@ class dbcontact{
                     resolve(result)
                 });
             });
+
             if(response.length!==0) return("Already in ur friend list")
             
-        } catch (error) {
+        } 
+        catch (error)
+         {
             console.log(error)
         }
+
+        try 
+        {
+          const response=await new Promise((resolve,reject)=>{
+                const query="SELECT friend_request.f_id from friend_request JOIN signup_table on signup_table.id=friend_request.f_id where signup_table.phone_number=? AND friend_request.u_id=? UNION SELECT friend_request.u_id from friend_request JOIN signup_table on signup_table.id=friend_request.u_id where signup_table.phone_number=? AND friend_request.f_id=?;"
+                connection.query(query,[data,id,data,id],(err,result)=>{
+                    if (err) reject(new Error(err.message));
+                    resolve(result)
+                });
+            });
+
+            if(response.length!==0) return("Request already present")
+            
+        } 
+        catch (error)
+         {
+            console.log(error)
+        }
+        
         try {
             await new Promise((resolve,reject)=>{
                 const query="insert into friend_request (u_id,f_id) values(?,(select id from signup_table where phone_number=?))";

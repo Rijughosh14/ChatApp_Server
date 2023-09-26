@@ -37,7 +37,7 @@ io.on("connection", (socket) => {
 
   //setting user id 
   socket.on('user_connection',(data)=>{
-    users.set(`${data}`,socket.id)
+    users.set(`${data}`,socket.id) 
   })
   // const {user}=socket.handshake.query
   // console.log(user)
