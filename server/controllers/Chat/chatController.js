@@ -21,6 +21,17 @@ const get_message=async(req,res)=>{
         console.log(error)
     }
 }
+
+const get_Lastmessage=async(req,res)=>{
+    try {
+        const{id,f_id}=req.query
+        const db=dbChat.getdbserviceinstance()
+        const result=await db.getLastMsg(id,f_id)
+        res.send(result) 
+    } catch (error) {
+        console.log(error)
+    }
+}
 const get_chatComponent=async(req,res)=>{
     try {
         const{id}=req.query
@@ -32,4 +43,4 @@ const get_chatComponent=async(req,res)=>{
     }
 }
 
-module.exports={send_message,get_message,get_chatComponent}
+module.exports={send_message,get_message,get_chatComponent,get_Lastmessage}

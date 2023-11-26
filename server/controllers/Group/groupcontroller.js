@@ -33,6 +33,16 @@ const get_GroupMessage=async(req,res)=>{
         console.log(error)
     }
 }
+const get_LastGroupMessage=async(req,res)=>{
+    try {
+        const id=req.query.id
+        const db=dbgroup.getdbserivceinstance()
+        const result=await db.getLastGroupMsg(id)
+        res.send(result)  
+    } catch (error) {
+        console.log(error)
+    }
+}
 const get_GroupList=async(req,res)=>{
     try {
         const id=req.query.id
@@ -54,4 +64,4 @@ const get_Group=async(req,res)=>{
     }
 }
 
-module.exports={create_group,send_GroupMessage,get_GroupMessage,get_GroupList,get_Group}
+module.exports={create_group,send_GroupMessage,get_GroupMessage,get_GroupList,get_Group,get_LastGroupMessage}

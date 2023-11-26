@@ -70,6 +70,24 @@ class dbChat{
             console.log(error)
         }
     }
+
+
+    async getLastMsg(id,f_id){
+        try {
+          const response= await new Promise((resolve,reject)=>{
+                const query='select*from chatmessage_table where sender_id=? And receiver_id=? union select*from chatmessage_table where receiver_id=? and sender_id=? ORDER BY id DESC limit 1 '
+                connection.query(query,[id,f_id,id,f_id],(err,result)=>{
+                    if(err) reject(new Error(err.message));
+                    resolve(result)
+                });
+            });
+            return response     
+        } catch (error) { 
+            console.log(error)
+        }
+    }
+
+
     async getChatcomponent(id){ 
         try {
           const response= await new Promise((resolve,reject)=>{

@@ -67,6 +67,21 @@ class dbgroup{
             console.log(error)
         } 
     }
+
+    async getLastGroupMsg(id){
+        try {
+          const response= await new Promise((resolve,reject)=>{
+                const query='select group_message.id,group_message.sender_id,group_message.message,group_message.image,signup_table.name from group_message JOIN signup_table on sender_id=signup_table.id where group_message.group_id =? ORDER BY group_message.id  DESC limit 1; '
+                connection.query(query,[id],(err,result)=>{
+                    if(err) reject(new Error(err.message));
+                    resolve(result)
+                });
+            });
+            return response     
+        } catch (error) { 
+            console.log(error)
+        } 
+    }
     async getGroupList(id){
         try {
           const response= await new Promise((resolve,reject)=>{

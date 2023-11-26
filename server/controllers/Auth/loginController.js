@@ -7,9 +7,18 @@ const login_post=async(req,res)=>{
     const db=dblogin.getdbinstance();
     const result=await db.login(Phone_number);
     try {
-        if(result.lenght!=0){
+        if(result.length!=0){
         const accessToken=jwt.sign({id:result[0].id},process.env.SECRETKEY,{expiresIn:"30m"})
-         return res.cookie(`userId`,accessToken).json(result)
+        //  return res.cookie(`userId`,accessToken,{
+        //     expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        //     // sameSite:'None',
+        //     // secure:true,
+        //  //domain:".onrender.com"
+        //  }).json(result)
+        return res.json({
+          data:result,
+          token:accessToken
+        })
         }
        
     } catch (error) {
@@ -33,4 +42,17 @@ const userExistence=async(req,res)=>{
     }
 }
 
-module.exports={login_post,userExistence}
+const userCookie=async(req,res)=>{
+    // Access the cookie from the request
+  const myCookie = req.cookies.userId;
+
+  if (myCookie) {
+    // Cookie exists, send its value in the response
+    res.send(`${myCookie}`);
+  } else {
+    // Cookie does not exist
+    res.send(false);
+  }
+}
+
+module.exports={login_post,userExistence,userCookie}

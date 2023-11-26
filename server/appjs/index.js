@@ -14,6 +14,7 @@ const multer = require('multer');
 const { createServer } = require("http");
 const{set_event,get_event,update_event}=require('../controllers/Events/Eventcontroller.js')
 const { Server } = require("socket.io");
+const { uploadCloudinary } = require('../Utilities/Cloudinary.js');
 
 //cors  config
 app.use(cors({origin:true,credentials:true}))
@@ -193,9 +194,7 @@ app.use(cookieParser())
  app.use(express.urlencoded({extended:false}));
 
 //images
- app.use('/uploads',express.static("server/appjs/uploads"),(req,res)=>{
-    res.status(200)
- });   
+ app.use('/uploads',express.static("server/appjs/uploads"));   
 
 //uploads 
 const storage=multer.diskStorage({
@@ -203,13 +202,19 @@ const storage=multer.diskStorage({
         cb(null,'server/appjs/uploads')
     },
     filename:function(req,file,cb){
-        cb(null,Date.now()+file.originalname)
+        cb(null,Date.now()+file.originalname) 
     }
 })
+
 const upload=multer({storage})
-app.post('/user/upload',upload.single('file'),(req,res)=>{ 
+app.post('/user/upload',upload.single('file'),async(req,res)=>{ 
     const file=req.file?req.file:""
-res.status(200).json(file?file.filename:" ")
+    try {
+      const response= await uploadCloudinary(file.path) 
+      res.status(200).json(response?response:" ")
+    } catch (error) {
+      console.log(error)
+    }
 })
 
 //signup
