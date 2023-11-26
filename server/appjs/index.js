@@ -28,7 +28,7 @@ const io = new Server(httpServer, {
     cors: {
       // origin: "http://localhost:3000",
       // or with an array of origins
-       origin: [ "http://localhost:3000"],
+       origin: [ "https://katha-oupx.onrender.com"],
       credentials: true
     }
   });
